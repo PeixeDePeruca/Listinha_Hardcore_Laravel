@@ -18,3 +18,7 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+Route::get('/admin', function () {
+    return 'Área restrita do Administrador';
+})->middleware(['auth', 'role:admin']);
