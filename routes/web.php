@@ -52,5 +52,7 @@ Route::get('/consultas-alunos', function () {
     ]);
 });
 
-// CRUD de Alunos (Tema 7)
+
 Route::resource('alunos', AlunoController::class);
+
+Route::get('/cursos/{id}/alunos', function ($id) { $curso = \App\Models\Curso::with('alunos')->findOrFail($id); return view('cursos.alunos', compact('curso')); });
