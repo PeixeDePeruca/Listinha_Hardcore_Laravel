@@ -16,11 +16,15 @@ class AlunoController extends Controller
 
     public function create()
     {
+        $this->authorize('create', Aluno::class);
+
         return view('alunos.create');
     }
 
     public function store(AlunoRequest $request)
     {
+        $this->authorize('create', Aluno::class);
+
         Aluno::create($request->validated());
 
         return redirect()->route('alunos.index')->with('success', 'Aluno cadastrado com sucesso!');
@@ -35,12 +39,18 @@ class AlunoController extends Controller
     public function edit(string $id)
     {
         $aluno = Aluno::findOrFail($id);
+
+        $this->authorize('update', $aluno);
+
         return view('alunos.edit', compact('aluno'));
     }
 
     public function update(AlunoRequest $request, string $id)
     {
         $aluno = Aluno::findOrFail($id);
+
+        $this->authorize('update', $aluno);
+
         $aluno->update($request->validated());
 
         return redirect()->route('alunos.index')->with('success', 'Aluno atualizado com sucesso!');
@@ -49,6 +59,9 @@ class AlunoController extends Controller
     public function destroy(string $id)
     {
         $aluno = Aluno::findOrFail($id);
+
+        $this->authorize('delete', $aluno);
+
         $aluno->delete();
 
         return redirect()->route('alunos.index')->with('success', 'Aluno removido com sucesso!');
